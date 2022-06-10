@@ -225,8 +225,9 @@ jobs:
           command: |
             cd backend
             npm cache clean --force
+            rm -rf node_modules
+            rm package-lock.json
             npm install
-            npm audit fix --force
             npm run migrations >migration_dump.txt
       - run:
           name: Send migration results to kvdb.io
@@ -301,8 +302,9 @@ jobs:
           command: |
             cd backend
             npm cache clean --force
+            rm -rf node_modules
+            rm package-lock.json
             npm i
-            npm audit fix --force
             npm run build
             cd ..
             # Zip the directory 

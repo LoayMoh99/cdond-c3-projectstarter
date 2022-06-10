@@ -121,7 +121,6 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix
 
   scan-backend:
     docker:
@@ -139,7 +138,6 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix
 
 #   deploy-infrastructure:
 #     docker:

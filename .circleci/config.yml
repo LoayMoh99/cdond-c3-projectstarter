@@ -283,9 +283,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "10:31:0d:6a:7f:04:13:1f:75:d7:7e:2b:4f:16:b8:73"
-      # attach workspace
-      - attach_workspace:
-          at: ~/workspace
       # Install depndencies
       - run:
           name: Install depndencies
@@ -296,6 +293,9 @@ jobs:
           name: install ansible and awscli
           command: |
             pip install ansible awscli
+      # attach workspace
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Deploy backend
           command: |

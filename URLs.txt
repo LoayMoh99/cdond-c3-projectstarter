@@ -1,0 +1,7 @@
+URLS:
+*****
+Github 1: 				https://github.com/LoayMoh99/cdond-c3-projectstarter		
+S3 Bucket 2: 			http://udapeople-abad564.s3.amazonaws.com/index.html		
+CloudFront 3: 			https://d3f5dh0w417585.cloudfront.net					
+Backend-Endpoint 4: 	http://44.201.166.27:3030/api/status						
+Prometheus 5: 			http://ec2-44-201-128-69.compute-1.amazonaws.com:9090/targets	

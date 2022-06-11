@@ -307,52 +307,52 @@ jobs:
             ansible-playbook -i ~/workspace/inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure
 
-  # smoke-test:
-  #   docker:
-  #     # Lightweight Docker image
-  #     - image: python:3.8-slim
-  #   steps:
-  #     # Checkout code from git
-  #     - checkout
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           apt -y update
-  #           apt -y upgrade
-  #           apt -y install curl
-  #     - run:
-  #         name: Install awscli
-  #         command: pip3 install awscli
-  #     - run:
-  #         name: Sleep to wait for instance to be ready
-  #         command: sleep 60
-  #     - run:
-  #         name: Backend smoke test.
-  #         command: |
-  #           # Get backend url
-  #           export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filter Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}")
-  #           export API_URL="http://${BACKEND_IP}:3030"
-  #           echo "${API_URL}"
-  #           if curl "${API_URL}/api/status" | grep "ok"
-  #           then
-  #              exit 0
-  #           else
-  #              exit 1
-  #           fi
-  #     - run:
-  #         name: Frontend smoke test.
-  #         command: |
-  #           URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
-  #           echo ${URL}
-  #           if curl -s ${URL} | grep "Welcome"
-  #           then
-  #              exit 0
-  #           else
-  #              exit 1
-  #           fi
-  #     # Here's where you will add some code to rollback on failure
-  #     - destroy-environment
-  #     - revert-migrations
+  smoke-test:
+    docker:
+      # Lightweight Docker image
+      - image: python:3.8-slim
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apt -y update
+            apt -y upgrade
+            apt -y install curl
+      - run:
+          name: Install awscli
+          command: pip3 install awscli
+      - run:
+          name: Sleep to wait for instance to be ready
+          command: sleep 60
+      - run:
+          name: Backend smoke test.
+          command: |
+            # Get backend url
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filter Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}")
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "ok"
+            then
+               exit 0
+            else
+               exit 1
+            fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
+            echo ${URL}
+            if curl -s ${URL} | grep "Welcome"
+            then
+               exit 0
+            else
+               exit 1
+            fi
+      # Here's where you will add some code to rollback on failure
+      - destroy-environment
+      - revert-migrations
 
 #   cloudfront-update:
 #     docker:
@@ -411,8 +411,8 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:

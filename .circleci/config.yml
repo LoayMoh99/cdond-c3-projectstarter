@@ -226,14 +226,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            rm -rf node_modules package-lock.json
             npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
-            npm audit fix --force
-            npm audit fix --force
-            npm audit
             npm run migrations > migration_dump.txt
       - run:
           name: Send migration results to kvdb.io
@@ -418,8 +411,8 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
